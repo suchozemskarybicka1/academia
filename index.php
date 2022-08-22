@@ -10,7 +10,7 @@
 
     <?php
 
-        echo "Ahoj";
+        echo "<h1>Ahoj</h1>";
         
     ?>
 
