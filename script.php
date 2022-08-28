@@ -20,18 +20,27 @@ function getData($a) {
     }
 }
 
-//DEKODOVANIE, PRIPIJENIE A ULOZENIE DAT
+//DEKODOVANIE, PRIPOJENIE A ULOZENIE DAT
 function processData($b) {
     date_default_timezone_set('Europe/Bratislava');
     $json_arr = json_decode(getData($b), true);
-    $json_arr[] = array(
-        'name' => $_GET['name'],
-        'date' => date('d. F Y'),
-        'time' => date('H:i:s')
-    );
+    if(date('H:i:s') > '22:00:00') {
+        $json_arr[] = array(
+            'name' => $_GET['name'],
+            'date' => date('d. F Y'),
+            'time' => date('H:i:s'),
+            'late' => "Meškáš ty fiškus jeden!"
+        );
+    };
+    // $json_arr[] = array(
+    //     'name' => $_GET['name'],
+    //     'date' => date('d. F Y'),
+    //     'time' => date('H:i:s')
+    // );
     file_put_contents($b, json_encode($json_arr, JSON_PRETTY_PRINT));
     return $json_arr;
 }
+
 
 // processData($filename);
 
@@ -43,9 +52,7 @@ function printArrival($c) {
     echo '<p>Tvoj čas príchodu je ' . $lastArray['time'] . '</p><br />';
 }    
 
-if(printArrival(processData($filename))) {
-    
-};
+printArrival(processData($filename))
 
 // --- KONIEC --- VYTAHOVANIE A UKLADANIE DAT DO SUBORU ---
 
