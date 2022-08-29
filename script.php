@@ -5,11 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Academia Project</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
 <body>
     
 <?php
+
 
 $filename = 'store_data.json';
 
@@ -24,25 +25,29 @@ function getData($a) {
 function processData($b) {
     date_default_timezone_set('Europe/Bratislava');
     $json_arr = json_decode(getData($b), true);
-    if(date('H:i:s') > '22:00:00') {
+    if (date('H:i:s') > '21:00:00') {
         $json_arr[] = array(
             'name' => $_GET['name'],
             'date' => date('d. F Y'),
             'time' => date('H:i:s'),
-            'late' => "Meškáš ty fiškus jeden!"
+            'late' => TRUE
+        );
+    } else {
+        $json_arr[] = array(
+            'name' => $_GET['name'],
+            'date' => date('d. F Y'),
+            'time' => date('H:i:s'),
+            'late' => FALSE
         );
     };
-    // $json_arr[] = array(
-    //     'name' => $_GET['name'],
-    //     'date' => date('d. F Y'),
-    //     'time' => date('H:i:s')
-    // );
+
     file_put_contents($b, json_encode($json_arr, JSON_PRETTY_PRINT));
     return $json_arr;
 }
 
-
-// processData($filename);
+echo '<pre>';
+print_r(processData($filename));
+echo '</pre>';
 
 //VYPISANIE DAT
 function printArrival($c) {
@@ -52,11 +57,29 @@ function printArrival($c) {
     echo '<p>Tvoj čas príchodu je ' . $lastArray['time'] . '</p><br />';
 }    
 
-printArrival(processData($filename))
-
-// --- KONIEC --- VYTAHOVANIE A UKLADANIE DAT DO SUBORU ---
+// printArrival(processData($filename))
 
 
+/* --- test zapisania TRUE or FALSE
+date_default_timezone_set('Europe/Bratislava');
+$json_arr[] = array(
+    'name' => 'Adrian',
+    'date' => date('d. F Y'),
+    'time' => date('H:i:s'),
+    'late' => null
+);
+if (date('H:i:s') > '19:00:00') {
+    $json_arr[0]['late'] = TRUE;
+} else {
+    $json_arr[0]['late'] = FALSE;
+}
+
+echo '<pre>';
+print_r($json_arr);
+echo '</pre>';
+--- koniec testu */
+
+        
 ?>
 
 <a href="/academia/index.html">Späť na zápis</a>
