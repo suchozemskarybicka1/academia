@@ -12,74 +12,53 @@
 <?php
 
 
-$filename = 'store_data.json';
 
 //VYTIAHNUTIE DAT ZO SUBORU
-function getData($a) {
-    if(is_file($a)) {
-        return file_get_contents($a);
+/* function getData($dataFile) {
+    if(is_file($dataFile)) {
+        return file_get_contents($dataFile);
+    }
+} */
+$filename = 'store_data.json';
+
+function getData($filename) {
+    if(is_file($filename)) {
+        $json_arr = json_decode(file_get_contents($filename) , true);
+        return $json_arr;
+    } else {
+        $json_arr = [];
+        return $json_arr;
     }
 }
 
-//DEKODOVANIE, PRIPOJENIE A ULOZENIE DAT
-function processData($b) {
-    date_default_timezone_set('Europe/Bratislava');
-    $json_arr = json_decode(getData($b), true);
-    if (date('H:i:s') > '21:00:00') {
-        $json_arr[] = array(
-            'name' => $_GET['name'],
-            'date' => date('d. F Y'),
-            'time' => date('H:i:s'),
-            'late' => TRUE
-        );
-    } else {
-        $json_arr[] = array(
-            'name' => $_GET['name'],
-            'date' => date('d. F Y'),
-            'time' => date('H:i:s'),
-            'late' => FALSE
-        );
-    };
+$json_arr = getData($filename);
 
-    file_put_contents($b, json_encode($json_arr, JSON_PRETTY_PRINT));
+
+//DEKODOVANIE, PRIPOJENIE A ULOZENIE DAT
+function addData($json_arr, $filename) {
+    date_default_timezone_set('Europe/Bratislava');
+    $json_arr[] = [
+        'name' => $_GET['name'],
+        'date' => date('d. F Y'),
+        'time' => date('H:i:s'),
+        'late' => date('H:i:s') > '19:00:00'
+    ];
+    file_put_contents($filename, json_encode($json_arr, JSON_PRETTY_PRINT));
     return $json_arr;
 }
 
-echo '<pre>';
-print_r(processData($filename));
-echo '</pre>';
 
 //VYPISANIE DAT
-function printArrival($c) {
-    $lastArray = end($c);
+function printArrival($json_arr) {
+    $lastArray = end($json_arr);
     echo '<h1>Ahoj ' . $lastArray['name'] . '</h1><br />';
     echo '<p>Dnes je ' . $lastArray['date'] . '</p>';
     echo '<p>Tvoj čas príchodu je ' . $lastArray['time'] . '</p><br />';
-}    
-
-// printArrival(processData($filename))
-
-
-/* --- test zapisania TRUE or FALSE
-date_default_timezone_set('Europe/Bratislava');
-$json_arr[] = array(
-    'name' => 'Adrian',
-    'date' => date('d. F Y'),
-    'time' => date('H:i:s'),
-    'late' => null
-);
-if (date('H:i:s') > '19:00:00') {
-    $json_arr[0]['late'] = TRUE;
-} else {
-    $json_arr[0]['late'] = FALSE;
 }
 
-echo '<pre>';
-print_r($json_arr);
-echo '</pre>';
---- koniec testu */
+printArrival(addData($json_arr, $filename));
 
-        
+
 ?>
 
 <a href="/academia/index.html">Späť na zápis</a>
