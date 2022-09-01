@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Academia Project</title>
-    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     
@@ -13,14 +13,10 @@
 
 
 
-//VYTIAHNUTIE DAT ZO SUBORU
-/* function getData($dataFile) {
-    if(is_file($dataFile)) {
-        return file_get_contents($dataFile);
-    }
-} */
+
 $filename = 'store_data.json';
 
+//VYTIAHNUTIE DAT ZO SUBORU
 function getData($filename) {
     if(is_file($filename)) {
         $json_arr = json_decode(file_get_contents($filename) , true);
@@ -30,33 +26,47 @@ function getData($filename) {
         return $json_arr;
     }
 }
-
 $json_arr = getData($filename);
 
 
+date_default_timezone_set('Europe/Bratislava');
+
 //DEKODOVANIE, PRIPOJENIE A ULOZENIE DAT
-function addData($json_arr, $filename) {
-    date_default_timezone_set('Europe/Bratislava');
-    $json_arr[] = [
-        'name' => $_GET['name'],
-        'date' => date('d. F Y'),
-        'time' => date('H:i:s'),
-        'late' => date('H:i:s') > '19:00:00'
-    ];
+function addData($json_arr, $filename, $isLate) {
+    if (date('H:i:s') < '23:59:59' && date('H:i:s') > '20:00:00') {
+        die('Nemôžeš sa zapísať!');
+    } else {
+        $json_arr[] = [
+            'name' => $_GET['name'],
+            'date' => date('j. F Y'),
+            'time' => date('H:i:s'),
+            'late' => $isLate
+        ];
+    }
     file_put_contents($filename, json_encode($json_arr, JSON_PRETTY_PRINT));
     return $json_arr;
 }
+
+function isLate() {
+    if (date('H:i:s') > '08:00:00') {
+        return TRUE;
+    } 
+}
+$isLate = isLate();
 
 
 //VYPISANIE DAT
 function printArrival($json_arr) {
     $lastArray = end($json_arr);
-    echo '<h1>Ahoj ' . $lastArray['name'] . '</h1><br />';
+    echo '<h1>Ahoj ' . $lastArray['name'] . '</h1>';
+    if($lastArray['late']) {
+        echo '<h2>Meškáš ty fiškus jeden!</h2><br />';
+    }
     echo '<p>Dnes je ' . $lastArray['date'] . '</p>';
     echo '<p>Tvoj čas príchodu je ' . $lastArray['time'] . '</p><br />';
 }
 
-printArrival(addData($json_arr, $filename));
+printArrival(addData($json_arr, $filename, $isLate));
 
 
 ?>
