@@ -11,10 +11,7 @@
     
 <?php
 
-
-
-
-$filename = 'store_data.json';
+$filename = 'studenti.json';
 
 //VYTIAHNUTIE DAT ZO SUBORU
 function getData($filename) {
@@ -32,14 +29,17 @@ date_default_timezone_set('Europe/Bratislava');
 
 //DEKODOVANIE, PRIPOJENIE A ULOZENIE DAT
 function addData($json_arr, $filename, $isLate) {
-    if (date('H:i:s') < '23:59:59' && date('H:i:s') > '20:00:00') {
+    if (date('H:i:s') < '23:59:59' && date('H:i:s') > '21:00:00') {
         die('Nemôžeš sa zapísať!');
     }
+    // $num = $json_arr['orderNum'];
+    // $num++;
     $json_arr[] = [
-        'name' => $_GET['name'],
+        'name' => $_REQUEST['name'],
         'date' => date('j. F Y'),
         'time' => date('H:i:s'),
-        'late' => $isLate
+        'late' => $isLate,
+        // 'orderNum' => $num
     ];
     file_put_contents($filename, json_encode($json_arr, JSON_PRETTY_PRINT));
     return $json_arr;
