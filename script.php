@@ -21,10 +21,9 @@ function getData($filename) {
     if(is_file($filename)) {
         $json_arr = json_decode(file_get_contents($filename) , true);
         return $json_arr;
-    } else {
-        $json_arr = [];
-        return $json_arr;
     }
+    $json_arr = [];
+    return $json_arr;
 }
 $json_arr = getData($filename);
 
@@ -35,22 +34,19 @@ date_default_timezone_set('Europe/Bratislava');
 function addData($json_arr, $filename, $isLate) {
     if (date('H:i:s') < '23:59:59' && date('H:i:s') > '20:00:00') {
         die('Nemôžeš sa zapísať!');
-    } else {
-        $json_arr[] = [
-            'name' => $_GET['name'],
-            'date' => date('j. F Y'),
-            'time' => date('H:i:s'),
-            'late' => $isLate
-        ];
     }
+    $json_arr[] = [
+        'name' => $_GET['name'],
+        'date' => date('j. F Y'),
+        'time' => date('H:i:s'),
+        'late' => $isLate
+    ];
     file_put_contents($filename, json_encode($json_arr, JSON_PRETTY_PRINT));
     return $json_arr;
 }
 
 function isLate() {
-    if (date('H:i:s') > '08:00:00') {
-        return TRUE;
-    } 
+    return date('H:i:s') > '08:00:00';
 }
 $isLate = isLate();
 
