@@ -24,6 +24,7 @@ function getData($filename) {
 }
 $json_arr = getData($filename);
 
+print_r($json_arr);
 
 date_default_timezone_set('Europe/Bratislava');
 
@@ -32,15 +33,29 @@ function addData($json_arr, $filename, $isLate) {
     if (date('H:i:s') < '23:59:59' && date('H:i:s') > '21:00:00') {
         die('Nemôžeš sa zapísať!');
     }
-    // $num = $json_arr['orderNum'];
-    // $num++;
+    
+    if(!isset($json_arr)) {
+        $num = 1;
+    } else {
+        $num = count($json_arr);
+        $num++;
+    }
+
     $json_arr[] = [
         'name' => $_REQUEST['name'],
         'date' => date('j. F Y'),
         'time' => date('H:i:s'),
         'late' => $isLate,
-        // 'orderNum' => $num
+        'order' => $num
     ];
+
+    /* SKUSANIE FOREACH NA INCREMENTOVANIE 
+    foreach ($json_arr as $key => $value) {
+        if ($json_arr[$key] == 'order') 
+            $value += 1;
+    }
+    */
+
     file_put_contents($filename, json_encode($json_arr, JSON_PRETTY_PRINT));
     return $json_arr;
 }
