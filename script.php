@@ -24,7 +24,22 @@ function getData($filename) {
 }
 $json_arr = getData($filename);
 
-print_r($json_arr);
+//vypisanie mien studentov cez array_map
+
+function studentName($student) {
+    return $student['name'];
+}
+
+function emptyArr($json_arr) {
+    if ($json_arr === null) {
+        return 'Array je prazdny';
+    }
+    print_r(array_map('studentName', $json_arr));
+}
+
+echo '<pre>';
+emptyArr($json_arr);
+echo '</pre>';
 
 date_default_timezone_set('Europe/Bratislava');
 
@@ -34,6 +49,7 @@ function addData($json_arr, $filename, $isLate) {
         die('Nemôžeš sa zapísať!');
     }
     
+    //incrementovanie poradoveho cisla pri zapise studenta
     if(!isset($json_arr)) {
         $num = 1;
     } else {
@@ -48,14 +64,7 @@ function addData($json_arr, $filename, $isLate) {
         'late' => $isLate,
         'order' => $num
     ];
-
-    /* SKUSANIE FOREACH NA INCREMENTOVANIE 
-    foreach ($json_arr as $key => $value) {
-        if ($json_arr[$key] == 'order') 
-            $value += 1;
-    }
-    */
-
+    
     file_put_contents($filename, json_encode($json_arr, JSON_PRETTY_PRINT));
     return $json_arr;
 }
@@ -79,6 +88,24 @@ function printArrival($json_arr) {
 
 printArrival(addData($json_arr, $filename, $isLate));
 
+// zapisovanie iba prichodov do pola
+function arrivalData() {
+    $filename = 'prichody.json';
+    if(is_file($filename)) {
+        $arrivalArr = json_decode(file_get_contents($filename) , true);
+        return $arrivalArr;
+    }
+    $arrivalArr = [];
+    
+    $arrivalArr[] = [
+        'dateTime' => date('H:i:s j. F Y'),
+    ];
+    
+    file_put_contents($filename, json_encode($arrivalArr, JSON_PRETTY_PRINT));
+    return $arrivalArr;
+}
+
+print_r(arrivalData());
 
 ?>
 
