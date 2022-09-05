@@ -90,25 +90,35 @@ printArrival(addData($json_arr, $filename, $isLate));
 
 // zapisovanie iba prichodov do pola
 function arrivalData() {
-    $filename = 'prichody.json';
-    if(is_file($filename)) {
-        $arrivalArr = json_decode(file_get_contents($filename) , true);
-        return $arrivalArr;
-    }
+    $arrivalFile = 'prichody.json';
+    if(is_file($arrivalFile)) {
+        $arrivalArr = json_decode(file_get_contents($arrivalFile), true);
+    } else {
     $arrivalArr = [];
+    }
+
+    if ($arrivalArr === null) {
+        $arrivalArr = [];
+    }
+    array_push($arrivalArr, date('H:i:s j. F Y'));
     
-    $arrivalArr[] = [
-        'dateTime' => date('H:i:s j. F Y'),
-    ];
-    
-    file_put_contents($filename, json_encode($arrivalArr, JSON_PRETTY_PRINT));
-    return $arrivalArr;
+    //iterovanie cez prichody v poli
+    foreach( $arrivalArr as $value) {
+        $arrivalArr[] = $value . ' meskanie';
+    }
+        
+    file_put_contents($arrivalFile, json_encode($arrivalArr, JSON_PRETTY_PRINT));
 }
 
-print_r(arrivalData());
+arrivalData();
+
+
+
 
 ?>
 
+<br />
+<br />
 <a href="/academia/index.html">Späť na zápis</a>
 
 </body>
