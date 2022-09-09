@@ -11,42 +11,45 @@
     
 <?php
 
-require 'mainFunctions.php';
+
+// -------------- REQUIRE --------------
+require_once 'mainFunctions.php';
 require_once 'secondaryFunctions.php';
 
 
-//-------------- VOLANIE mainFuncions --------------
+
+// -------------- TIMEZONE SET --------------
+date_default_timezone_set('Europe/Bratislava');
+
+
+
+// -------------- VARIABLES --------------
+$filename = 'studenti.json';
+$json_arr = getData($filename);
+
+$arrivalData = 'prichody.json';
+$arrivalArr = getData($arrivalData);
+
+$isLate = isLate();
+
+
+
+//-------------- FUNCTIONS CALL --------------
+
+// CALL mainFuncions
 printArrival(addData($json_arr, $filename, $isLate));
 
 
-
-
-//-------------- VYPISANIE MIEN STUDENTOV POMOCOU ARRAY MAP --------------
-echo '<pre>';
+// VYPISANIE MIEN STUDENTOV POMOCOU ARRAY MAP 
 emptyArr($json_arr);
-echo '</pre>';
 
 
-
-// -------------- ZAPISOVANIE PRICHODOV DO POLA --------------
+// ZAPISOVANIE PRICHODOV DO POLA 
 addArrivalData($arrivalArr, $arrivalData);
 
 
-//  SKUSANIE a ROZROBENE -------------- ITEROVANIE --------------
-
-$lateArrival = getData($arrivalData);
-
-echo '<pre>';
-print_r($lateArrival);
-echo '</pre>';
-
-
-foreach ($lateArrival as $value) {
-    if ($value > '20:00:00') {
-        $value = $value . ' meskanie <br/>';
-        print_r($value);
-    }
-}
+// ITEROVANIE 
+iterationLate(getData($arrivalData));
 
 
 ?>
