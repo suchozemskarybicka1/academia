@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Academia Project</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
 <body>
     
@@ -15,6 +15,8 @@
 // -------------- REQUIRE --------------
 require_once 'mainFunctions.php';
 require_once 'secondaryFunctions.php';
+
+// require_once 'class.php';
 
 
 
@@ -26,12 +28,10 @@ date_default_timezone_set('Europe/Bratislava');
 // -------------- VARIABLES --------------
 $filename = 'studenti.json';
 $json_arr = getData($filename);
+$isLate = isLate();
 
 $arrivalData = 'prichody.json';
 $arrivalArr = getData($arrivalData);
-
-$isLate = isLate();
-
 
 
 //-------------- FUNCTIONS CALL --------------
@@ -50,6 +50,16 @@ addArrivalData($arrivalArr, $arrivalData);
 
 // ITEROVANIE 
 iterationLate(getData($arrivalData));
+
+
+// ------------ CLASS ------------
+
+$filename = 'studenti.json';
+$json_arr = MainFunction::getData($filename);
+$isLate = MainFunction::isLate();
+$addingData = MainFunction::addData($json_arr, $filename, $isLate);
+
+MainFunction::printArrival($addingData);
 
 
 ?>
