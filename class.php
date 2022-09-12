@@ -5,12 +5,12 @@ class MainFunction
 {
 
     public static $file = 'studenti.json';
-    public static $json_arr = '';
+    // public static $json_arr = '';
     
 
-    public static function getData($file) {
-        if(is_file($file)) {
-            $json_arr = json_decode(file_get_contents($file) , true);
+    public static function getData() {
+        if(is_file(self::$file)) {
+            $json_arr = json_decode(file_get_contents(self::$file) , true);
             return $json_arr;
         }
         $json_arr = [];
@@ -18,7 +18,7 @@ class MainFunction
     }
 
 
-    public static function addData($json_arr, $file) {
+    public static function addData($json_arr) {
         if (date('H:i:s') < '23:59:59' && date('H:i:s') > '21:00:00') {
             die('Nemôžeš sa zapísať!');
         }
@@ -37,7 +37,7 @@ class MainFunction
             'order' => $num
         ];
         
-        file_put_contents($file, json_encode($json_arr, JSON_PRETTY_PRINT));
+        file_put_contents(self::$file, json_encode($json_arr, JSON_PRETTY_PRINT));
         return $json_arr;
     }
 

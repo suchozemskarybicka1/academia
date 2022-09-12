@@ -54,10 +54,10 @@ iterationLate(getData($arrivalData));
 
 // ------------ CLASS ------------
 
-$filename = 'studenti.json';
-$json_arr = MainFunction::getData($filename);
+// $filename = 'studenti.json';
 // $isLate = MainFunction::isLate();
-$addingData = MainFunction::addData($json_arr, $filename);
+$json_arr = MainFunction::getData();
+$addingData = MainFunction::addData($json_arr);
 
 MainFunction::printArrival($addingData);
 
