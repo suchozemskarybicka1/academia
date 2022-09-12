@@ -13,10 +13,10 @@
 
 
 // -------------- REQUIRE --------------
-require_once 'mainFunctions.php';
-require_once 'secondaryFunctions.php';
+// require_once 'mainFunctions.php';
+// require_once 'secondaryFunctions.php';
 
-// require_once 'class.php';
+require_once 'class.php';
 
 
 
@@ -24,7 +24,7 @@ require_once 'secondaryFunctions.php';
 date_default_timezone_set('Europe/Bratislava');
 
 
-
+/*
 // -------------- VARIABLES --------------
 $filename = 'studenti.json';
 $json_arr = getData($filename);
@@ -50,14 +50,14 @@ addArrivalData($arrivalArr, $arrivalData);
 
 // ITEROVANIE 
 iterationLate(getData($arrivalData));
-
+*/
 
 // ------------ CLASS ------------
 
 $filename = 'studenti.json';
 $json_arr = MainFunction::getData($filename);
-$isLate = MainFunction::isLate();
-$addingData = MainFunction::addData($json_arr, $filename, $isLate);
+// $isLate = MainFunction::isLate();
+$addingData = MainFunction::addData($json_arr, $filename);
 
 MainFunction::printArrival($addingData);
 

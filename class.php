@@ -3,42 +3,42 @@
 
 class MainFunction  
 {
+
     public static $file = 'studenti.json';
     public static $json_arr = '';
-    public static $isLate = '';
     
 
     public static function getData($file) {
         if(is_file($file)) {
-            self::$json_arr = json_decode(file_get_contents($file) , true);
-            return self::$json_arr;
+            $json_arr = json_decode(file_get_contents($file) , true);
+            return $json_arr;
         }
-        self::$json_arr = [];
-        return self::$json_arr;
+        $json_arr = [];
+        return $json_arr;
     }
 
 
-    public static function addData($json_arr, $file, $isLate) {
+    public static function addData($json_arr, $file) {
         if (date('H:i:s') < '23:59:59' && date('H:i:s') > '21:00:00') {
             die('Nemôžeš sa zapísať!');
         }
         
-        self::$json_arr = (array) self::$json_arr;
+        $json_arr = (array) $json_arr;
     
         //incrementovanie poradoveho cisla pri zapise studenta
-        $num = count(self::$json_arr);
+        $num = count($json_arr);
         $num++;
         
-        self::$json_arr[] = [
+        $json_arr[] = [
             'name' => $_REQUEST['name'],
             'date' => date('j. F Y'),
             'time' => date('H:i:s'),
-            'late' => self::$isLate,
+            'late' => self::isLate(),
             'order' => $num
         ];
         
-        file_put_contents(self::$file, json_encode(self::$json_arr, JSON_PRETTY_PRINT));
-        return self::$json_arr;
+        file_put_contents($file, json_encode($json_arr, JSON_PRETTY_PRINT));
+        return $json_arr;
     }
 
 
