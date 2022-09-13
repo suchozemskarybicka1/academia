@@ -16,7 +16,8 @@
 // require_once 'mainFunctions.php';
 // require_once 'secondaryFunctions.php';
 
-require_once 'class.php';
+require_once 'staticClass.php';
+require_once 'instanceClass.php';
 
 
 
@@ -52,20 +53,33 @@ addArrivalData($arrivalArr, $arrivalData);
 iterationLate(getData($arrivalData));
 */
 
-// ------------ CLASS ------------
+// ------------ INSTANCE CLASS ------------
+$arrivalData = 'prichody.json';
+$arrivalArr = MainFunction::getData($arrivalData);
 
-// $filename = 'studenti.json';
-// $isLate = MainFunction::isLate();
-$json_arr = MainFunction::getData();
-$addingData = MainFunction::addData($json_arr);
+$arrival = new SecondaryFunctions($arrivalArr, $arrivalData);
+$arrival->addArrivalData();
+print_r($arrival->arrivalArr);
+
+// zadanie od Kozu
+
+
+
+// ------------ STATIC CLASS ------------
+
+/*
+$filename = 'studenti.json';
+$json_arr = MainFunction::getData($filename);
+$addingData = MainFunction::addData($json_arr, $filename);
 
 MainFunction::printArrival($addingData);
-
+*/
 
 ?>
 
+
 <br />
-<a href="/academia/index.html">Späť na zápis</a>
+<!-- <a href="/academia/index.html">Späť na zápis</a> -->
 <br />
 
 </body>
