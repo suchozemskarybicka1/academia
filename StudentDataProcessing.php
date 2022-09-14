@@ -1,7 +1,7 @@
 <?php
 
 
-class MainFunction  
+class StudentDataProcessing
 {
 
     public static function getData($file) {
