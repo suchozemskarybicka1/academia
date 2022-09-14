@@ -17,7 +17,7 @@
 // require_once 'secondaryFunctions.php';
 
 require_once 'staticClass.php';
-require_once 'instanceClass.php';
+require_once 'arrivalClass.php';
 
 
 
@@ -54,15 +54,14 @@ iterationLate(getData($arrivalData));
 */
 
 // ------------ INSTANCE CLASS ------------
-$arrivalData = 'prichody.json';
-$arrivalArr = MainFunction::getData($arrivalData);
+$arrivalFile = 'prichody.json';
+$arrivalArr = StudentDataProcessing::getData($arrivalFile);
 
-$arrival = new SecondaryFunctions($arrivalArr, $arrivalData);
+$arrival = new ArrivalDateProcessing($arrivalArr, $arrivalFile);
 $arrival->addArrivalData();
 print_r($arrival->arrivalArr);
 
-// zadanie od Kozu
-
+$arrival->getLate();
 
 
 // ------------ STATIC CLASS ------------
