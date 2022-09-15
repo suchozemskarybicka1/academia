@@ -16,9 +16,9 @@
 // require_once 'mainFunctions.php';
 // require_once 'secondaryFunctions.php';
 
-require_once 'staticClass.php';
-require_once 'arrivalClass.php';
-
+require_once 'StudentDataProcessing.php';
+require_once 'ArrivalDateProcessing.php';
+require_once 'GoatClass.php';
 
 
 // -------------- TIMEZONE SET --------------
@@ -73,6 +73,12 @@ $addingData = MainFunction::addData($json_arr, $filename);
 
 MainFunction::printArrival($addingData);
 */
+
+// ------------ DOPLNKOVE ZADANIE  ------------
+
+$date = new GoatClass();
+$date->setDate();
+var_dump($date);
 
 ?>
 
