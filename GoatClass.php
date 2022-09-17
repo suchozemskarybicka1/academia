@@ -5,9 +5,15 @@ class GoatClass
 
     public $date;
 
-    public function setDate() {
-        // $this->date = date('H:i:s j. F Y');
-        $this->date = 'test';
+    public function __construct($date)
+    {
+        $this->date = $date;
     }
 
-}
+    public function getLate() {
+        if ($this->date > '08:00:00')
+            $this->date .= 'meskanie';
+            return $this->date;
+        }       
+
+} 

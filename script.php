@@ -57,11 +57,11 @@ iterationLate(getData($arrivalData));
 $arrivalFile = 'prichody.json';
 $arrivalArr = StudentDataProcessing::getData($arrivalFile);
 
-$arrival = new ArrivalDateProcessing($arrivalArr, $arrivalFile);
+// $arrival = new ArrivalDateProcessing($arrivalArr, $arrivalFile);
 // $arrival->addArrivalData();
 // print_r($arrival->arrivalArr);
 
-$arrival->getLate();
+// $arrival->getLate();
 
 
 // ------------ STATIC CLASS ------------
@@ -76,15 +76,16 @@ MainFunction::printArrival($addingData);
 
 // ------------ DOPLNKOVE ZADANIE  ------------
 
-$date = new GoatClass();
-$date->setDate();
+// $date = new GoatClass();
+// $date->setDate();
 // var_dump($date);
 
-foreach ($arrivalArr as $value) {
-    $instance = new GoatClass($date);
-    var_dump($instance->setDate());
+foreach ($arrivalArr as $key => $value) {
+    $object = new GoatClass($value);
+    echo '<pre>';
+    var_dump($object);
+    echo '</pre>';
 }
-
 
 
 ?>
