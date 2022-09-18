@@ -82,6 +82,7 @@ MainFunction::printArrival($addingData);
 
 foreach ($arrivalArr as $key => $value) {
     $object = new GoatClass($value);
+    $object->isLate();
     echo '<pre>';
     var_dump($object);
     echo '</pre>';
