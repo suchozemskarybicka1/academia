@@ -10,9 +10,9 @@ class GoatClass
         $this->date = $date;
     }
 
-    public function getLate() {
-        if ($this->date > '08:00:00')
-            $this->date .= 'meskanie';
+    public function isLate() {
+        if ($this->date > '19:00:00')
+            $this->date .= ' meskanie';
             return $this->date;
         }       
 
