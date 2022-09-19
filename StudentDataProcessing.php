@@ -14,6 +14,7 @@ class StudentDataProcessing
     }
 
 
+    
     public static function addData($json_arr, $file) {
         if (date('H:i:s') < '23:59:59' && date('H:i:s') > '21:00:00') {
             die('Nemôžeš sa zapísať!');
