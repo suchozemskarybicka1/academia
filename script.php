@@ -13,12 +13,12 @@
 
 
 // -------------- REQUIRE --------------
-// require_once 'mainFunctions.php';
-// require_once 'secondaryFunctions.php';
+// require_once 'FuncStudentDataProcessing.php';
+// require_once 'FuncArrivalDateProcessing.php';
 
 require_once 'StudentDataProcessing.php';
 require_once 'ArrivalDateProcessing.php';
-require_once 'GoatClass.php';
+require_once 'addLateToArrival.php';
 
 
 // -------------- TIMEZONE SET --------------
@@ -68,20 +68,17 @@ $arrivalArr = StudentDataProcessing::getData($arrivalFile);
 
 /*
 $filename = 'studenti.json';
-$json_arr = MainFunction::getData($filename);
-$addingData = MainFunction::addData($json_arr, $filename);
+$json_arr = StudentDataProcessing::getData($filename);
+$addingData = StudentDataProcessing::addData($json_arr, $filename);
 
-MainFunction::printArrival($addingData);
+StudentDataProcessing::printArrival($addingData);
 */
 
 // ------------ DOPLNKOVE ZADANIE  ------------
 
-// $date = new GoatClass();
-// $date->setDate();
-// var_dump($date);
 
 foreach ($arrivalArr as $key => $value) {
-    $object = new GoatClass($value);
+    $object = new addLateToArrival($value);
     $object->isLate();
     echo '<pre>';
     var_dump($object);
